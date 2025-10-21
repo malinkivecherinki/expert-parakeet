@@ -1,12 +1,12 @@
 # Project
 
-## Update 10
+## Update 17
 
 This project includes various utilities and tools.
 
 ### Features
 
-- Feature 10
+- Feature 17
 - Utility functions
 - Configuration management
 
@@ -24,4 +24,4 @@ const utils = require('./src/utils');
 
 ### Changelog
 
-- Update 10: Added new features and improvements
+- Update 17: Added new features and improvements

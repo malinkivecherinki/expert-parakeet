@@ -1,82 +1,22 @@
-#!/usr/bin/env python3
 """
-CodeAnalyzer - Static code analysis tool for multiple languages.
+Expert Parakeet - Bug Fix
+Expert Parakeet
 """
 
-import re
-from pathlib import Path
-from typing import Dict, List
+def safe_divide(a, b):
+    """Safely divide two numbers with error handling"""
+    if b == 0:
+        raise ValueError("Division by zero is not allowed")
+    return a / b
 
-class CodeAnalyzer:
-    """Analyze code files for various metrics."""
-    def __init__(self):
-        self.results = {}
+def parse_config(config_str):
+    """Parse configuration string with improved error handling"""
+    if not config_str:
+        return {}
     
-    def analyze_file(self, filepath: str) -> Dict:
-        """Analyze a single code file."""
-        path = Path(filepath)
-        if not path.exists():
-            return {"error": "File not found"}
-        
-        content = path.read_text()
-        
-        # Count lines
-        lines = content.split('\n')
-        total_lines = len(lines)
-        code_lines = len([l for l in lines if l.strip() and not l.strip().startswith('#')])
-        comment_lines = len([l for l in lines if l.strip().startswith('#')])
-        
-        # Count functions/classes
-        functions = len(re.findall(r'def\s+\w+', content))
-        classes = len(re.findall(r'class\s+\w+', content))
-        
-        return {
-            "file": str(path),
-            "total_lines": total_lines,
-            "code_lines": code_lines,
-            "comment_lines": comment_lines,
-            "functions": functions,
-            "classes": classes
-        }
-    
-    def analyze_directory(self, directory: str, extensions: List[str] = ['.py']) -> List[Dict]:
-        """Analyze all files in a directory."""
-        results = []
-        path = Path(directory)
-        
-        for ext in extensions:
-            for filepath in path.rglob(f'*{ext}'):
-                results.append(self.analyze_file(str(filepath)))
-        
-        return results
-
-if __name__ == "__main__":
-    analyzer = CodeAnalyzer()
-    print("CodeAnalyzer initialized")
-
-
-"""
-Expert Parakeet - Code Refactoring
-"""
-
-from typing import List, Dict, Optional
-
-def optimize_algorithm(data: List[Dict]) -> List[Dict]:
-    """Optimized version with better performance"""
-    # Use list comprehension for better performance
-    return [
-        {**item, 'processed': True}
-        for item in data
-        if item.get('active', True)
-    ]
-
-def extract_metadata(obj: Dict) -> Optional[Dict]:
-    """Extract metadata with type hints"""
-    if not isinstance(obj, dict):
-        return None
-    
-    return {
-        'id': obj.get('id'),
-        'timestamp': obj.get('timestamp'),
-        'version': obj.get('version', '1.0.0')
-    }
+    try:
+        import json
+        return json.loads(config_str)
+    except json.JSONDecodeError as e:
+        print(f"Warning: Invalid JSON config: {e}")
+        return {}
